@@ -1,0 +1,18 @@
+{
+    "Amazon": {
+        "AssetProcessor": {
+            "Settings": {
+                "ScanFolder ScriptCanvasO3DCon/Assets": {
+                    "watch": "@GEMROOT:ScriptCanvasO3DCon@/Assets",
+                    "recursive": 1,
+                    "order": 101
+                },
+                "ScanFolder ScriptCanvasO3DCon/Registry": {
+                    "watch": "@GEMROOT:ScriptCanvasO3DCon@/Registry",
+                    "recursive": 1,
+                    "order": 102
+                }
+            }
+        }
+    }
+}
