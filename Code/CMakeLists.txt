@@ -13,6 +13,8 @@ o3de_pal_dir(pal_dir ${CMAKE_CURRENT_LIST_DIR}/Platform/${PAL_PLATFORM_NAME} "${
 include(${pal_dir}/PAL_${PAL_PLATFORM_NAME_LOWERCASE}.cmake)
 
 add_subdirectory(Source/SpaceGame9)
+add_subdirectory(Source/AdventureGame0)
+add_subdirectory(Source/SimGame0)
 
 # The ScriptCanvasO3DCon.API target declares the common interface that users of this gem should depend on in their targets
 ly_add_target(
@@ -48,6 +50,8 @@ ly_add_target(
             AZ::AzCore
             AZ::AzFramework            
             ScriptCanvasNodes::SpaceGame9.Static
+            ScriptCanvasNodes::AdventureGame0.Static
+            ScriptCanvasNodes::SimGame0.Static
 )
 
 # Here add ScriptCanvasO3DCon target, it depends on the Private Object library and Public API interface
@@ -68,6 +72,8 @@ ly_add_target(
         PRIVATE
             Gem::ScriptCanvasO3DCon.Private.Object
             ScriptCanvasNodes::SpaceGame9.Static
+            ScriptCanvasNodes::AdventureGame0.Static
+            ScriptCanvasNodes::SimGame0.Static
 
 )
 
@@ -136,6 +142,8 @@ if(PAL_TRAIT_BUILD_HOST_TOOLS)
             PRIVATE
                 Gem::ScriptCanvasO3DCon.Editor.Private.Object
                 ScriptCanvasNodes::SpaceGame9.Static
+                ScriptCanvasNodes::AdventureGame0.Static
+                ScriptCanvasNodes::SimGame0.Static
     )
 
     # By default, we will specify that the above target ScriptCanvasO3DCon would be used by

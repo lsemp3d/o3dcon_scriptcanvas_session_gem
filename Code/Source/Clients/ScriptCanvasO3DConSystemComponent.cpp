@@ -5,15 +5,6 @@
 #include <AzCore/Serialization/EditContext.h>
 #include <AzCore/Serialization/EditContextConstants.inl>
 
-
-
-#include <ScriptCanvas/AutoGen/ScriptCanvasAutoGenRegistry.h>
-#include <AutoGenNodeableRegistry.generated.h>
-
-#include <SpaceGame9.h>
-
-REGISTER_SCRIPTCANVAS_AUTOGEN_NODEABLE(SpaceGame9Static);
-
 namespace ScriptCanvasO3DCon
 {
     void ScriptCanvasO3DConSystemComponent::Reflect(AZ::ReflectContext* context)
