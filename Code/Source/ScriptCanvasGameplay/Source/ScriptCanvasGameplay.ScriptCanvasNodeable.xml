@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScriptCanvas Include="ScriptCanvasGameplay.h" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Class Name="ScriptCanvasGameplay"
+        QualifiedName="Game::Nodes::ScriptCanvasGameplay"
+        PreferredClassName="ScriptCanvasGameplay"
+        Category="Gameplay Nodes"
+        Namespace="Game"
+        Description="Simple Script Canvas node example">
+
+        <Input Name="Start" Description="Starts the game logic"/>
+
+		<Input Name="MoveInputEvent">
+			<Parameter Name="Strafe Value" Type="float"/>
+		</Input>
+
+		<Input Name="ShootInputEvent">
+			<Parameter Name="Shoot Value" Type="float"/>
+		</Input>
+
+		<Output Name="Player Spawned" Description="Called once when the player is spawned"/>
+
+		<Output Name="On Wave Complete"/>
+
+		<Output Name="Enemy Contact">
+			<Parameter Name="CollisionEvent" Type="const AzPhysics::TriggerEvent&amp;"/>
+		</Output>
+
+		<Output Name="Player Moved" Description="Called anytime the player's position changes">
+			<Parameter Type="float" Name="Z"/>
+		</Output>
+
+		<Property Name="PlayerPrefab" Type="AzFramework::Scripts::SpawnableScriptAssetRef"/>
+		<Property Name="EnemyPrefabs" Type="AZStd::unordered_map&lt;AZStd::string, AzFramework::Scripts::SpawnableScriptAssetRef&gt;"/>
+		<Property Name="ProjectilePrefab" Type="AzFramework::Scripts::SpawnableScriptAssetRef"/>
+
+		<Property Name="Radius" Type="float" DefaultValue="5.f"/>
+		<Property Name="Speed" Type="float" DefaultValue="5.f"/>
+
+		<!--<Property Name="InputBindings" Type="InputEventBindingsAsset"/>-->
+		
+    </Class>
+
+
+	<!--<Class Name="StartGame"
+		QualifiedName="ScriptCanvas::Nodes::StartGame"
+		PreferredClassName="StartGame"
+		GraphEntryPoint="True"
+		StartFunction="Start"
+		Category="ScriptCanvasGameplay Nodes"
+		Namespace="ScriptCanvas"
+		Description="">
+
+		<Output Name="Start" Description="Entry point into the node"/>
+
+	</Class>-->
+</ScriptCanvas>
