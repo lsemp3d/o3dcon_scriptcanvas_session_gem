@@ -28,41 +28,19 @@ namespace Game
     public:
 
         EnemyWaveSpawner(Game::Nodes::ScriptCanvasGameplay* gameplayNode);
+        ~EnemyWaveSpawner();
 
-        void Configure(AzFramework::Scripts::SpawnableScriptMediator* scriptMediator, AZStd::unordered_map<AZStd::string, AzFramework::Scripts::SpawnableScriptAssetRef>& enemyPrefabs, const AZ::Vector3& spawnLocation);
-
-        void OnSpawn([[maybe_unused]] AzFramework::EntitySpawnTicket spawnTicket, [[maybe_unused]] AZStd::vector<AZ::EntityId> entityList) override;
-
-
-        ~EnemyWaveSpawner()
-        {
-            AZ::TickBus::Handler::BusDisconnect();
-        }
-
-        void SpawnRandom()
-        {
-            if (m_spawnTickets.empty())
-            {
-                return;
-            }
-
-            int randomIndex = rand() % ((int)m_spawnTickets.size());
-
-            auto spawnTicket = m_spawnTickets[randomIndex];
-
-            AzFramework::Scripts::SpawnableScriptNotificationsBus::MultiHandler::BusConnect(spawnTicket.GetId());
-            m_scriptMediator->Spawn(spawnTicket);
-        }
+        void Configure(AzFramework::Scripts::SpawnableScriptMediator* scriptMediator, AZStd::vector<AzFramework::Scripts::SpawnableScriptAssetRef>& enemyPrefabs, const AZ::Vector3& spawnLocation, AZ::EntityId playerEntityId);
+        void Start(int numEnemies, float interval);
+        
+        void SpawnRandom();
+        void OnSpawn(AzFramework::EntitySpawnTicket spawnTicket, AZStd::vector<AZ::EntityId> entityList) override;
+        void OnDespawn(AzFramework::EntitySpawnTicket spawnTicket) override;
 
         void OnTick(float deltaTime, AZ::ScriptTimePoint) override;
 
-        void Start(int numEnemies, float interval)
-        {
-            m_numEnemies = numEnemies;
-            m_interval = interval;
 
-            m_randomInterval = ((float)(rand() % 100)) / 100.f;
-        }
+    protected:
 
         float m_interval = 1.f;
         float m_randomInterval = 0.f;
@@ -71,12 +49,15 @@ namespace Game
 
         float m_elapsedTime = 0.f;
 
+        AZ::EntityId m_playerEntityId;
+
         Game::Nodes::ScriptCanvasGameplay* m_gameplayNode;
 
         AZ::Vector3 m_spawnLocation;
 
-        AZStd::unordered_map<AZStd::string, AzFramework::Scripts::SpawnableScriptAssetRef> m_enemyPrefabs;
-        AZStd::vector<AzFramework::EntitySpawnTicket> m_spawnTickets;
+        AZStd::unordered_set<AzFramework::EntitySpawnTicket> m_spawnTickets;
+
+        AZStd::vector<AzFramework::Scripts::SpawnableScriptAssetRef> m_enemyPrefabs;
 
         AzFramework::Scripts::SpawnableScriptMediator* m_scriptMediator;
     };

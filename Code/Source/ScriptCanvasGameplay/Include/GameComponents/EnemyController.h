@@ -19,8 +19,6 @@
 
 #include <PhysX/ColliderShapeBus.h>
 
-#pragma optimize("", off)
-
 namespace Game
 {
 
@@ -37,7 +35,7 @@ namespace Game
 		EnemyController() = default;
 		EnemyController(Nodes::ScriptCanvasGameplay* gameplayNode, AzFramework::EntitySpawnTicket& spawnTicket);
 
-		void Configure(float radius, float speed, AZ::EntityId enemyEntityId);
+		void Configure(float radius, float speed, AZ::EntityId enemyEntityId, AZ::EntityId playerEntityId);
 
 		void Activate() override;
 		void Deactivate() override;
@@ -49,6 +47,9 @@ namespace Game
 
 		float m_speed = 1.f;
 		float m_radius = 1.f;
+		float m_lifetime = 8.f;
+
+		AZ::EntityId m_playerEntityId;
 
 		AzFramework::EntitySpawnTicket m_spawnTicket;
 
@@ -60,5 +61,3 @@ namespace Game
 		AZ::TransformInterface* m_transform = nullptr;
 	};
 }
-
-#pragma optimize("", on)
