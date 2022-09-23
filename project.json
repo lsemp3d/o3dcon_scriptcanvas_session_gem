@@ -1,0 +1,23 @@
+{
+    "project_name": "O3DConSession",
+    "project_id": "{6446E8DA-B6E7-4103-B44C-3A44587C6237}",
+    "origin": "The primary repo for O3DConSession goes here: i.e. http://www.mydomain.com",
+    "license": "What license O3DConSession uses goes here: i.e. https://opensource.org/licenses/Apache-2.0 Or https://opensource.org/licenses/MIT etc.",
+    "display_name": "O3DConSession",
+    "summary": "A short description of O3DConSession.",
+    "canonical_tags": [
+        "Project"
+    ],
+    "user_tags": [
+        "O3DConSession"
+    ],
+    "icon_path": "preview.png",
+    "engine": "o3de",
+    "external_subdirectories": [
+        "Gem"
+    ],
+    "restricted": "O3DConSession",
+    "gem_names": [
+        "GameplayGem"
+    ]
+}

@@ -1,0 +1,248 @@
+{
+    "ContainerEntity": {
+        "Id": "ContainerEntity",
+        "Name": "Projectile",
+        "Components": {
+            "Component_[13536378807550292260]": {
+                "$type": "EditorEntityIconComponent",
+                "Id": 13536378807550292260
+            },
+            "Component_[16169133358321141337]": {
+                "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                "Id": 16169133358321141337,
+                "Parent Entity": ""
+            },
+            "Component_[17387523917091579126]": {
+                "$type": "EditorDisabledCompositionComponent",
+                "Id": 17387523917091579126
+            },
+            "Component_[1979753938888434073]": {
+                "$type": "EditorInspectorComponent",
+                "Id": 1979753938888434073
+            },
+            "Component_[286655359197639692]": {
+                "$type": "EditorVisibilityComponent",
+                "Id": 286655359197639692
+            },
+            "Component_[6423627106207265950]": {
+                "$type": "EditorEntitySortComponent",
+                "Id": 6423627106207265950,
+                "Child Entity Order": [
+                    "Entity_[12421686709357]"
+                ]
+            },
+            "Component_[6703315864643210318]": {
+                "$type": "EditorOnlyEntityComponent",
+                "Id": 6703315864643210318
+            },
+            "Component_[7949265668983942107]": {
+                "$type": "EditorLockComponent",
+                "Id": 7949265668983942107
+            },
+            "Component_[8846987607705712159]": {
+                "$type": "EditorPendingCompositionComponent",
+                "Id": 8846987607705712159
+            },
+            "Component_[9570904786788812438]": {
+                "$type": "EditorPrefabComponent",
+                "Id": 9570904786788812438
+            }
+        }
+    },
+    "Entities": {
+        "Entity_[12421686709357]": {
+            "Id": "Entity_[12421686709357]",
+            "Name": "Projectile",
+            "Components": {
+                "Component_[12489857867796497227]": {
+                    "$type": "EditorOnlyEntityComponent",
+                    "Id": 12489857867796497227
+                },
+                "Component_[13731450101990738436]": {
+                    "$type": "EditorVisibilityComponent",
+                    "Id": 13731450101990738436
+                },
+                "Component_[15588138062490488586]": {
+                    "$type": "EditorRigidBodyComponent",
+                    "Id": 15588138062490488586,
+                    "Configuration": {
+                        "entityId": "",
+                        "Gravity Enabled": false,
+                        "Mass": 523.5989990234375,
+                        "Centre of mass offset": [
+                            -3.209227605882603e-10,
+                            5.215969167693402e-8,
+                            4.5421448720273094e-12
+                        ],
+                        "Inertia tensor": [
+                            52.35992431640625,
+                            0.0,
+                            0.0,
+                            0.0,
+                            52.35992431640625,
+                            0.0,
+                            0.0,
+                            0.0,
+                            52.35990905761719
+                        ]
+                    }
+                },
+                "Component_[17333571087673002961]": {
+                    "$type": "AZ::Render::EditorMeshComponent",
+                    "Id": 17333571087673002961,
+                    "Controller": {
+                        "Configuration": {
+                            "ModelAsset": {
+                                "assetId": {
+                                    "guid": "{1EE46427-D1C2-5698-B30D-B4CCF46B15CD}",
+                                    "subId": 274434668
+                                },
+                                "assetHint": "objects/_primitives/_sphere_1x1.azmodel"
+                            }
+                        }
+                    }
+                },
+                "Component_[2390582339430821233]": {
+                    "$type": "EditorLockComponent",
+                    "Id": 2390582339430821233
+                },
+                "Component_[2873389268896118331]": {
+                    "$type": "EditorDisabledCompositionComponent",
+                    "Id": 2873389268896118331
+                },
+                "Component_[2919003576528941591]": {
+                    "$type": "EditorInspectorComponent",
+                    "Id": 2919003576528941591,
+                    "ComponentOrderEntryArray": [
+                        {
+                            "ComponentId": 9410006711974177634
+                        },
+                        {
+                            "ComponentId": 4011609272315611538,
+                            "SortIndex": 1
+                        },
+                        {
+                            "ComponentId": 17333571087673002961,
+                            "SortIndex": 2
+                        },
+                        {
+                            "ComponentId": 5558640052693550366,
+                            "SortIndex": 3
+                        },
+                        {
+                            "ComponentId": 15588138062490488586,
+                            "SortIndex": 4
+                        }
+                    ]
+                },
+                "Component_[3371188698102667647]": {
+                    "$type": "EditorEntityIconComponent",
+                    "Id": 3371188698102667647
+                },
+                "Component_[4011609272315611538]": {
+                    "$type": "EditorScriptCanvasComponent",
+                    "Id": 4011609272315611538,
+                    "configuration": {
+                        "sourceHandle": {
+                            "id": "{E0788AA0-D55F-5CB0-A477-34BEF5121301}",
+                            "path": "Assets/ScriptCanvas/Projectile.scriptcanvas"
+                        },
+                        "sourceName": "Projectile.scriptcanvas",
+                        "propertyOverrides": {
+                            "source": {
+                                "id": "{E0788AA0-D55F-5CB0-A477-34BEF5121301}",
+                                "path": "Assets/ScriptCanvas/Projectile.scriptcanvas"
+                            },
+                            "variables": [
+                                {
+                                    "Datum": {
+                                        "isOverloadedStorage": false,
+                                        "scriptCanvasType": {
+                                            "m_type": 3
+                                        },
+                                        "isNullPointer": false,
+                                        "$type": "double",
+                                        "value": 10.0
+                                    },
+                                    "VariableId": {
+                                        "m_id": "{E7F91AEA-6EA5-4CAD-B0F3-BD8C6C5C83F5}"
+                                    },
+                                    "VariableName": "Speed",
+                                    "InitialValueSource": 1
+                                }
+                            ],
+                            "overrides": [
+                                {
+                                    "Datum": {
+                                        "isOverloadedStorage": false,
+                                        "scriptCanvasType": {
+                                            "m_type": 3
+                                        },
+                                        "isNullPointer": false,
+                                        "$type": "double",
+                                        "value": 500.0
+                                    },
+                                    "InputControlVisibility": {
+                                        "Value": 850104567
+                                    },
+                                    "VariableId": {
+                                        "m_id": "{E7F91AEA-6EA5-4CAD-B0F3-BD8C6C5C83F5}"
+                                    },
+                                    "VariableName": "Speed",
+                                    "InitialValueSource": 1
+                                }
+                            ]
+                        }
+                    }
+                },
+                "Component_[5558640052693550366]": {
+                    "$type": "EditorColliderComponent",
+                    "Id": 5558640052693550366,
+                    "ColliderConfiguration": {
+                        "MaterialSlots": {
+                            "Slots": [
+                                {
+                                    "Name": "lambert3"
+                                }
+                            ]
+                        }
+                    },
+                    "ShapeConfiguration": {
+                        "PhysicsAsset": {
+                            "Asset": {
+                                "assetId": {
+                                    "guid": "{1EE46427-D1C2-5698-B30D-B4CCF46B15CD}",
+                                    "subId": 1801833720
+                                },
+                                "assetHint": "objects/_primitives/_sphere_1x1.pxmesh"
+                            },
+                            "Configuration": {
+                                "PhysicsAsset": {
+                                    "assetId": {
+                                        "guid": "{1EE46427-D1C2-5698-B30D-B4CCF46B15CD}",
+                                        "subId": 1801833720
+                                    },
+                                    "loadBehavior": "QueueLoad",
+                                    "assetHint": "objects/_primitives/_sphere_1x1.pxmesh"
+                                }
+                            }
+                        }
+                    }
+                },
+                "Component_[7214852320251466623]": {
+                    "$type": "EditorEntitySortComponent",
+                    "Id": 7214852320251466623
+                },
+                "Component_[8594118029279987842]": {
+                    "$type": "EditorPendingCompositionComponent",
+                    "Id": 8594118029279987842
+                },
+                "Component_[9410006711974177634]": {
+                    "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                    "Id": 9410006711974177634,
+                    "Parent Entity": "ContainerEntity"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "materialType": "@gemroot:Atom_Feature_Common@/Assets/Materials/Types/StandardPBR.materialtype",
+    "materialTypeVersion": 5,
+    "propertyValues": {
+        "baseColor.color": [
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            1.0
+        ],
+        "baseColor.textureMap": "../textures/Grid.png",
+        "emissive.color": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "general.enableAreaLights": false,
+        "general.enablePunctualLights": false,
+        "general.enableShadows": false,
+        "opacity.factor": 1.0,
+        "opacity.mode": "Cutout",
+        "uv.tileU": 0.009999999776482582,
+        "uv.tileV": 0.009999999776482582
+    }
+}
