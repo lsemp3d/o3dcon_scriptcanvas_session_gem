@@ -20,8 +20,6 @@
 #include <AzFramework/Physics/Common/PhysicsSimulatedBodyEvents.h>
 #include <AzFramework/Physics/PhysicsSystem.h>
 
-#pragma optimize("", off)
-
 namespace Game
 {
 
@@ -38,31 +36,7 @@ namespace Game
 		PlayerController() = default;
 		PlayerController(Nodes::ScriptCanvasGameplay* gameplayNode);
 
-		void Configure(float radius, float speed, AZ::EntityId shipEntityId)
-		{
-			m_radius = radius;
-			m_speed = speed;
-
-			m_onCollisionBeginHandler = AzPhysics::SimulatedBodyEvents::OnTriggerEnter::Handler(
-				[this]([[maybe_unused]] AzPhysics::SimulatedBodyHandle bodyHandle,
-					const AzPhysics::TriggerEvent& event)
-				{
-
-					// Collision took place! I can send out even through node
-					m_gameplayNode->EnemyContact(event);
-				});
-
-			if (auto* physicsSystem = AZ::Interface<AzPhysics::SystemInterface>::Get())
-			{
-				auto [sceneHandle, bodyHandle] = physicsSystem->FindAttachedBodyHandleFromEntityId(shipEntityId);
-
-				if (sceneHandle != AzPhysics::InvalidSceneHandle)
-				{
-					AzPhysics::SimulatedBodyEvents::RegisterOnTriggerEnterHandler(sceneHandle, bodyHandle, m_onCollisionBeginHandler);
-				}
-			}
-
-		}
+		void Configure(float radius, float speed, AZ::EntityId shipEntityId);
 
 		void Activate() override;
 		void Deactivate() override;
@@ -86,5 +60,3 @@ namespace Game
 		AZ::TransformInterface* m_transform = nullptr;
 	};
 }
-
-#pragma optimize("", on)

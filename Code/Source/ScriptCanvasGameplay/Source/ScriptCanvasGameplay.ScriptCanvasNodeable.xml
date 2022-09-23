@@ -6,52 +6,47 @@
         PreferredClassName="ScriptCanvasGameplay"
         Category="Gameplay Nodes"
         Namespace="Game"
-        Description="Simple Script Canvas node example">
+        Description="A game in a Script Canvas node example for O3DCon 2022">
 
-        <Input Name="Start" Description="Starts the game logic"/>
-
-		<Input Name="MoveInputEvent">
-			<Parameter Name="Strafe Value" Type="float"/>
+		<!-- Inputs -->
+        <!-- Inputs allow passing in information or data into the node -->
+		<Input Name="Start" Description="Starts the game logic">
+			<Parameter Name="Radius" Type="float" DefaultValue="4.f"/>
+			<Parameter Name="Speed" Type="float" DefaultValue="5.f"/>
+			<Parameter Name="Enemies" Type="int" DefaultValue="10"/>
+			<Parameter Name="EnemySpawnSpeed" Type="float" DefaultValue="2.f"/>
 		</Input>
 
-		<Input Name="ShootInputEvent">
-			<Parameter Name="Shoot Value" Type="float"/>
+		<Input Name="MoveInputEvent" Description="Notify the node that a movement event has happened">
+			<Parameter Name="Strafe Value" Type="float" Description="The amount of movement to apply per the input binding"/>
 		</Input>
+		<!-- /Inputs -->
+	
+		<!-- Properties -->
+		<!-- Properties are member variables of the node's C++ class, you can access them in C++ by the provided name attribute -->
+		<Property Name="PlayerPrefab" Type="AzFramework::Scripts::SpawnableScriptAssetRef" Description="The Prefab to use for the player"/>
+		<Property Name="EnemyPrefabs" Type="AZStd::vector&lt;AzFramework::Scripts::SpawnableScriptAssetRef&gt;" Description="A collection of prefabs to randomly spawn as enemies"/>
 
-		<Output Name="Player Spawned" Description="Called once when the player is spawned"/>
+		<!--<Property Name="PlayerRadius" Type="float" DefaultValue="5.f" Description="The movement radius of the player"/>
+		<Property Name="PlayerSpeed" Type="float" DefaultValue="5.f" Description="The movement speed of the player"/>-->
+		<!-- /Properties -->
 
-		<Output Name="On Wave Complete"/>
+		<!-- Events -->
+		<!-- These are sent by the node to notify that something has happened, they are output slots on the node -->
+		<Output Name="On Player Spawned" Description="Called once when the player is spawned"/>
 
-		<Output Name="Enemy Contact">
+		<Output Name="On Player Moved" Description="Called anytime the player's position changes">
+			<Parameter Type="AZ::Vector3" Name="Position"/>
+		</Output>
+
+		<Output Name="On Enemy Contact">
 			<Parameter Name="CollisionEvent" Type="const AzPhysics::TriggerEvent&amp;"/>
 		</Output>
 
-		<Output Name="Player Moved" Description="Called anytime the player's position changes">
-			<Parameter Type="float" Name="Z"/>
-		</Output>
+		<Output Name="On Wave Complete" Description="Called at the end of a wave of enemies"/>
+		<!-- /Events -->
+	</Class>
 
-		<Property Name="PlayerPrefab" Type="AzFramework::Scripts::SpawnableScriptAssetRef"/>
-		<Property Name="EnemyPrefabs" Type="AZStd::unordered_map&lt;AZStd::string, AzFramework::Scripts::SpawnableScriptAssetRef&gt;"/>
-		<Property Name="ProjectilePrefab" Type="AzFramework::Scripts::SpawnableScriptAssetRef"/>
+	<!-- You can define more nodes here if desired -->
 
-		<Property Name="Radius" Type="float" DefaultValue="5.f"/>
-		<Property Name="Speed" Type="float" DefaultValue="5.f"/>
-
-		<!--<Property Name="InputBindings" Type="InputEventBindingsAsset"/>-->
-		
-    </Class>
-
-
-	<!--<Class Name="StartGame"
-		QualifiedName="ScriptCanvas::Nodes::StartGame"
-		PreferredClassName="StartGame"
-		GraphEntryPoint="True"
-		StartFunction="Start"
-		Category="ScriptCanvasGameplay Nodes"
-		Namespace="ScriptCanvas"
-		Description="">
-
-		<Output Name="Start" Description="Entry point into the node"/>
-
-	</Class>-->
 </ScriptCanvas>

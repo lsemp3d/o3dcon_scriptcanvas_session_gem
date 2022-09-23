@@ -17,23 +17,50 @@ namespace Game
         AZ::TickBus::Handler::BusConnect();
     }
 
-    void EnemyWaveSpawner::Configure(AzFramework::Scripts::SpawnableScriptMediator* scriptMediator, AZStd::unordered_map<AZStd::string, AzFramework::Scripts::SpawnableScriptAssetRef>& enemyPrefabs, const AZ::Vector3& spawnLocation)
+    EnemyWaveSpawner::~EnemyWaveSpawner()
     {
+        AZ::TickBus::Handler::BusDisconnect();
+
+        m_numEnemies = 0;
+
+        for (auto& spawnTicket : m_spawnTickets)
+        {
+            m_scriptMediator->Despawn(spawnTicket);
+            AzFramework::Scripts::SpawnableScriptNotificationsBus::MultiHandler::BusDisconnect(spawnTicket.GetId());
+        }
+
+        m_spawnTickets.clear();
+    }
+
+    void EnemyWaveSpawner::Configure(AzFramework::Scripts::SpawnableScriptMediator* scriptMediator, AZStd::vector<AzFramework::Scripts::SpawnableScriptAssetRef>& enemyPrefabs, const AZ::Vector3& spawnLocation, AZ::EntityId playerEntityId)
+    {
+        m_playerEntityId = playerEntityId;
         m_spawnLocation = spawnLocation;
         m_enemyPrefabs = enemyPrefabs;
         m_scriptMediator = scriptMediator;
+    }
 
-        for (auto& enemy : enemyPrefabs)
-        {
-            auto spawnTicket = scriptMediator->CreateSpawnTicket(enemy.second);
-            m_spawnTickets.push_back(spawnTicket);
-        }
+    void EnemyWaveSpawner::Start(int numEnemies, float interval)
+    {
+        m_numEnemies = numEnemies;
+        m_interval = interval;
+
+        m_randomInterval = ((float)(rand() % 100)) / 100.f;
+    }
+
+    void EnemyWaveSpawner::SpawnRandom()
+    {
+        int randomIndex = rand() % ((int)m_enemyPrefabs.size());
+
+        auto spawnTicket = m_scriptMediator->CreateSpawnTicket(m_enemyPrefabs[randomIndex]);
+        m_spawnTickets.insert(spawnTicket);
+
+        AzFramework::Scripts::SpawnableScriptNotificationsBus::MultiHandler::BusConnect(spawnTicket.GetId());
+        m_scriptMediator->Spawn(spawnTicket);
     }
 
     void EnemyWaveSpawner::OnSpawn(AzFramework::EntitySpawnTicket spawnTicket, AZStd::vector<AZ::EntityId> entityList)
     {
-        AzFramework::Scripts::SpawnableScriptNotificationsBus::MultiHandler::BusDisconnect(spawnTicket.GetId());
-
         AZ::Entity* entity = nullptr;
         AZ::ComponentApplicationBus::BroadcastResult(entity, &AZ::ComponentApplicationBus::Events::FindEntity, entityList[0]);
         if (entity)
@@ -44,7 +71,24 @@ namespace Game
 
             entity->GetTransform()->SetWorldTranslation(m_spawnLocation);
 
-            enemyController->Configure(m_gameplayNode->Radius, 10.f, entityList[1]);
+            enemyController->Configure(m_gameplayNode->GetRadius(), m_gameplayNode->GetSpeed(), entityList[1], m_playerEntityId);
+        }
+    }
+
+    void EnemyWaveSpawner::OnDespawn(AzFramework::EntitySpawnTicket spawnTicket)
+    {
+        AzFramework::Scripts::SpawnableScriptNotificationsBus::MultiHandler::BusDisconnect(spawnTicket.GetId());
+
+        const auto& it = AZStd::find(m_spawnTickets.begin(), m_spawnTickets.end(), spawnTicket);
+        if (it != m_spawnTickets.end())
+        {
+            m_spawnTickets.erase(it);
+        }
+
+        if (m_spawnTickets.empty())
+        {
+            // Notify that this wave is complete
+            m_gameplayNode->OnWaveComplete();
         }
     }
 
@@ -62,15 +106,8 @@ namespace Game
                 // Spawn an enemy
                 SpawnRandom();
 
-                //AZLOG_INFO("SPAWN ENEMY %d", m_numEnemies);
-
                 --m_numEnemies;
 
-                if (m_numEnemies == 0)
-                {
-                    // Notify that this wave is complete
-                    m_gameplayNode->OnWaveComplete();
-                }
             }
         }
 

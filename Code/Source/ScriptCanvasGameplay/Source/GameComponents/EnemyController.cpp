@@ -6,8 +6,6 @@
  *
  */
 
-#pragma optimize("", off)
-
 #include <GameComponents/EnemyController.h>
 #include <AzFramework/Physics/PhysicsSystem.h>
 
@@ -18,31 +16,32 @@ namespace Game
 		, m_spawnTicket(spawnTicket)
 	{}
 
-	void EnemyController::Configure(float radius, float speed, AZ::EntityId enemyEntityId)
+	void EnemyController::Configure(float radius, float speed, AZ::EntityId enemyEntityId, AZ::EntityId playerEntityId)
 	{
+		m_playerEntityId = playerEntityId;
 		m_radius = radius;
 		m_speed = speed;
 
-
 		float angle = AZ::Constants::TwoPi * ((rand() % 100) / 100.f);
 
-		// Need to compute a random destination vector that sits on an intersect path with the player
-		float x = cosf(angle) * m_radius;
-		float y = sinf(angle) * m_radius;
+		// Caclulate a random destination vector that sits on an intersect path with the player
+		float y = cosf(angle) * m_radius;
+		float z = sinf(angle) * m_radius;
 
-		AZ::Vector3 targetVector = AZ::Vector3(0.f, x, y);
+		// Calculate a direction vector from the spawn point to an intersection point on the circle
+		AZ::Vector3 targetVector = AZ::Vector3(0.f, y, z);
 		m_direction = targetVector - m_transform->GetWorldTranslation();
+		m_direction.Normalize();
 
-
-
+		// Install a collision handler that despawns the enemy on collision
 		m_onCollisionBeginHandler = AzPhysics::SimulatedBodyEvents::OnTriggerEnter::Handler(
-			[this]([[maybe_unused]] AzPhysics::SimulatedBodyHandle bodyHandle,
-				const AzPhysics::TriggerEvent& /*event*/)
+			[this, enemyEntityId]([[maybe_unused]] AzPhysics::SimulatedBodyHandle bodyHandle,
+				const AzPhysics::TriggerEvent& event)
 			{
-				m_gameplayNode->GetScriptMediator().Despawn(m_spawnTicket);
-				// Collision took place! I can send out even through node
-				//m_gameplayNode->EnemyContact(event);
-
+				if (event.m_triggerBody->GetEntityId() == enemyEntityId && event.m_otherBody->GetEntityId() == m_playerEntityId)
+				{
+					m_gameplayNode->GetScriptMediator().Despawn(m_spawnTicket);
+				}
 			});
 
 		if (auto* physicsSystem = AZ::Interface<AzPhysics::SystemInterface>::Get())
@@ -53,7 +52,6 @@ namespace Game
 				AzPhysics::SimulatedBodyEvents::RegisterOnTriggerEnterHandler(sceneHandle, bodyHandle, m_onCollisionBeginHandler);
 			}
 		}
-
 	}
 	
 	void EnemyController::Activate()
@@ -61,7 +59,6 @@ namespace Game
 		AZ::TickBus::Handler::BusConnect();
 
 		m_transform = AZ::EntityUtils::FindFirstDerivedComponent<AZ::TransformInterface>(GetEntity());
-		
 	}
 	
 	void EnemyController::Deactivate()
@@ -71,14 +68,17 @@ namespace Game
 	
 	void EnemyController::OnTick(float deltaTime, AZ::ScriptTimePoint)
 	{
+		// Continously move the enemy in the calculated direction
 		if (m_transform)
 		{
-			AZ::Vector3 target = m_transform->GetWorldTranslation() + (m_direction * deltaTime/*m_speed*/);
+			AZ::Vector3 target = m_transform->GetWorldTranslation() + (m_direction * (deltaTime * m_speed));
 			m_transform->SetWorldTranslation(target);
 		}
-	}
-	
-	
-}
 
-#pragma optimize("", on)
+		m_lifetime -= deltaTime;
+		if (m_lifetime <= 0.f)
+		{
+			m_gameplayNode->GetScriptMediator().Despawn(m_spawnTicket);
+		}
+	}	
+}

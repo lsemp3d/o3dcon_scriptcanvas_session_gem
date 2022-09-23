@@ -23,10 +23,14 @@
 
 #include <AzFramework/Physics/Common/PhysicsSimulatedBodyEvents.h>
 
+
+
 namespace Game
 {
     class PlayerController;
 
+    //! An Intention is a system to handle player requests or commands
+    //! such as inputs
     class Intention
     {
     public:
@@ -39,11 +43,6 @@ namespace Game
 
         bool Is(AZ::Crc32& id) const { return id == m_intentionID; }
     };
-
-
-
-
-
 }
 
 namespace Game::Nodes
@@ -56,10 +55,8 @@ namespace Game::Nodes
     public:
 
         ScriptCanvasGameplay();
-        ~ScriptCanvasGameplay() override
-        {
-            delete m_enemyWaveSpawner;
-        }
+        ~ScriptCanvasGameplay() override;
+        void OnDeactivate() override;
 
         AZStd::queue<Intention>& GetIntentions() { return m_intentions; }
 
@@ -71,11 +68,20 @@ namespace Game::Nodes
 
         void OnWaveComplete();
 
+        float GetRadius() const { return m_radius; }
+        float GetSpeed() const { return m_speed; }
+        int GetNumEnemies() const { return m_numEnemies; }
+        float GetEnemySpawnSpeed() const { return m_enemySpawnSpeed; }
+
     protected:
 
         void OnSpawn(AzFramework::EntitySpawnTicket spawnTicket, AZStd::vector<AZ::EntityId> entityList) override;
         void OnDespawn(AzFramework::EntitySpawnTicket spawnTicket) override;
 
+        float m_radius = 4;
+        float m_speed = 5;
+        int m_numEnemies = 10;
+        float m_enemySpawnSpeed = 5.f;
 
         AzFramework::Scripts::SpawnableScriptMediator m_spawnableScriptMediator;
 
@@ -89,13 +95,9 @@ namespace Game::Nodes
 
         PlayerController* m_playerController;
 
-        EnemyWaveSpawner* m_enemyWaveSpawner = nullptr;
+        AZStd::unique_ptr<EnemyWaveSpawner> m_enemyWaveSpawner;
 
         AZStd::queue<Intention> m_intentions;
 
-        
-
     };
-
-
 }
